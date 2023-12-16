@@ -2,6 +2,8 @@ from typing import List, Callable
 import numpy as np
 import time
 import linalg
+import torch
+
 
 
 def py_matrix_multiply(mat1: List[List[int]], mat2: List[List[int]]) -> List[List[int]]:
@@ -55,7 +57,32 @@ def compare(matrix_size: int) -> None:
         )
     )
 
+def cosine_similarity_compare(N : int, D : int) -> None:
+    vec_set_a = torch.randn(N, D)
+    vec_set_b = torch.randn(N, D)
+
+    lst_a = vec_set_a.tolist()
+    lst_b = vec_set_b.tolist()
+
+    assert np.allclose(
+        linalg.LinearAlgebra.cosineSimilarityBlas(np.array(lst_a), np.array(lst_b), 1e-6),
+        torch.nn.functional.cosine_similarity(vec_set_a,vec_set_b), 1e-4)
+    
+    print(
+        "Cosine similarity (C++ BLAS), size={0}x{1}: {2} seconds\n".format(
+            N, D, test_timings(linalg.LinearAlgebra.cosineSimilarityBlas,
+                               np.array(lst_a), np.array(lst_b), 1e-6)
+        )
+    )
+
+    print(
+        "Cosine similarity (torch), size={0}x{1}: {2} seconds\n".format(
+            N, D, test_timings(torch.nn.functional.cosine_similarity,
+                               vec_set_a, vec_set_b)
+        )
+    )
+
 
 if __name__ == "__main__":
-    for size in [10, 50, 100, 300, 500, 700]:
-        compare(size)
+    for size in [100, 300, 500, 700, 1500, 3000]:
+        cosine_similarity_compare(size, size)

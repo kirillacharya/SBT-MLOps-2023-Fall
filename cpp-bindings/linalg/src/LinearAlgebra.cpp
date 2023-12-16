@@ -88,3 +88,30 @@ LinearAlgebra::matmulBlas(const std::vector<std::vector<double>> &a,
 
   return result;
 }
+
+std::vector<double>
+LinearAlgebra::cosine_similarity(const std::vector<std::vector<double>> &a,
+                                 const std::vector<std::vector<double>> &b, 
+                                 const double acc) {
+  size_t N = a.size();
+  size_t D = a[0].size();  
+
+  if (b.size() != N || b[0].size() != D) {
+    throw std::runtime_error("The sets of vectors must be equal in size "
+                             "with vectors of the same dimensions");
+  }                               
+  std::vector<double> result_similarity(N);
+  // cosine_similarity calculation
+  for (size_t i = 0; i < N; i++) {
+    const double* a_i = a[i].data();
+    const double* b_i = b[i].data();
+
+    double dotProduct = cblas_ddot(D, a_i, 1, b_i, 1);
+    double a_2norm = cblas_dnrm2(D, a_i, 1);
+    double b_2norm = cblas_dnrm2(D, b_i, 1);
+    double denom_a = std::max(a_2norm, acc);
+    double denom_b = std::max(b_2norm, acc);
+    result_similarity[i] = dotProduct / (denom_a * denom_b);
+  }
+  return result_similarity;
+}

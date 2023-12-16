@@ -14,4 +14,8 @@ public:
   static std::vector<std::vector<double>>
   matmulBlas(const std::vector<std::vector<double>> &a,
              const std::vector<std::vector<double>> &b);
+  static std::vector<double>
+  cosine_similarity(const std::vector<std::vector<double>> &a,
+                    const std::vector<std::vector<double>> &b, 
+                    const double acc=1e-8);
 };
