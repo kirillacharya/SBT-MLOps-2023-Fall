@@ -18,13 +18,13 @@ TEST(LinearAlgebraTests, MatrixMultiplicationBlas) {
 }
 
 TEST(LinearAlgebraTests, cosineSimilarityBlas) {
-  std::vector<std::vector<double>> vec_set_a = {{3, 5, 7, 9},{9, 11, 13, 15}};
-  std::vector<std::vector<double>> vec_set_b = {{15, 17, 19, 21},{21, 23, 25, 27}};
+  std::vector<std::vector<double>> vec_set_a = {{1, 2, 3}, {4, 5, 6}}; 
+  std::vector<std::vector<double>> vec_set_b = {{7, 8, 9}, {10, 11, 12}}; 
 
   auto result = LinearAlgebra::cosine_similarity(vec_set_a, vec_set_b);
 
-  EXPECT_DOUBLE_EQ(result[0], 0.9729);  //torch.nn.functional.cosine_similarity(vec_set_a[0], vec_set_b[0], eps=1e-8)
-  EXPECT_DOUBLE_EQ(result[1], 0.9958);  //torch.nn.functional.cosine_similarity(vec_set_a[1], vec_set_b[1], eps=1e-8)
+  EXPECT_DOUBLE_EQ(result[0], 0.9594119455666703); 
+  EXPECT_DOUBLE_EQ(result[1], 0.9961498555841326); 
 }
 
 int main(int argc, char **argv) {
