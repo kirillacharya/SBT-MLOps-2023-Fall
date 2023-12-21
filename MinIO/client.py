@@ -40,7 +40,7 @@ for param in model.state_dict():
 
 print('Optimizer: ')
 for param in opt.state_dict():
-    print(param, '    ', opt.state_dict()[param])
+    print(param, '    ', opt.state_dict()[param].size())
 
 
 
